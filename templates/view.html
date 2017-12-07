@@ -1,0 +1,25 @@
+
+    <h1>View page</h1>
+
+    <form method="POST" action="">
+
+      <p>
+        <input type="submit" value="Delete selected">
+      </p>
+      <table>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Отчество</th>
+          <th>Регион</th>
+          <th>Город</th>
+          <th>Контактный телефон</th>
+          <th>e-mail</th>
+          <th>Комментарий</th>
+        </tr>
+        %(response_table)s
+      </table>
+    </form>
+    %(comments)s

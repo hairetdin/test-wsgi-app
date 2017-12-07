@@ -1,0 +1,26 @@
+
+    <h1>Area page</h1>
+
+    <form method="post" action="/refbook/area-add/">
+      <p>
+        New area: <input type="text" name="name" value="">
+        <input type="submit" value="Add">
+      </p>
+    </form>
+
+    <form method="POST" action="/refbook/area-rm/">
+
+      <table>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Название</th>
+        </tr>
+        %(response_table)s
+      </table>
+
+      <p>
+        <input type="submit" value="Delete selected">
+      </p>
+
+    </form>

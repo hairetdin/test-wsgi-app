@@ -1,0 +1,31 @@
+
+    <h1>City page</h1>
+
+    <form method="post" action="/refbook/city-add/">
+      <p>
+        New city: <input type="text" name="city" value="">
+        Area:
+        <select name="area">
+          %(areas_option)s
+        </select>
+        <input type="submit" value="Add">
+      </p>
+    </form>
+
+    <form method="POST" action="/refbook/city-rm/">
+
+      <table>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Город</th>
+          <th>Регион</th>
+        </tr>
+        %(response_table)s
+      </table>
+
+      <p>
+        <input type="submit" value="Delete selected">
+      </p>
+
+    </form>

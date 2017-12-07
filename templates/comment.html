@@ -1,0 +1,132 @@
+
+<script>
+      function showCity(str) {
+          if (str == "") {
+              document.getElementById("selectCity").innerHTML = "";
+              return;
+          } else {
+              if (window.XMLHttpRequest) {
+                  // code for IE7+, Firefox, Chrome, Opera, Safari
+                  xmlhttp = new XMLHttpRequest();
+              } else {
+                  // code for IE6, IE5
+                  xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+              }
+              xmlhttp.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                      document.getElementById("selectCity").innerHTML = this.responseText;
+                  }
+              };
+              xmlhttp.open("GET","/get-city/?area="+str,true);
+              xmlhttp.send();
+          }
+      }
+
+      function validateEmail(email) {
+          var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+      }
+
+      function validatePhone(phone) {
+          var re = /^\(\d{3}\)\d{7}$/;
+          return re.test(phone);
+      }
+
+      function validateForm() {
+          //iterate form for empty value
+          var elements = document.getElementById("commentForm").elements;
+          for (var i = 0, element; element = elements[i++];) {
+              if (element.value === "") {
+                  element.style.borderColor = "red";
+                  element.style.backgroundColor = "white";
+              }
+          }
+
+          //error text
+          var validateResult = document.getElementById("validateResult");
+          validateResult.innerHTML = "";
+          validateResult.style.color = "red";
+
+          //validate fname, lname and comment
+          var fname = document.forms["commentForm"]["fname"].value;
+          var lname = document.forms["commentForm"]["lname"].value;
+          var comment = document.forms["commentForm"]["comment"].value;
+          if (fname == "" || lname == "" || comment == "") {
+              validateResult.innerHTML = "Фамилия, имя и комментарий - обязательные поля.<br>";
+          }
+
+          //validate email
+          var email = document.forms["commentForm"]["email"].value;
+          if (email) {
+              if (!(validateEmail(email))) {
+                  document.forms["commentForm"]["email"].style.backgroundColor = "pink";
+                  validateResult.innerHTML += "email не корректный.<br>";
+              }
+          }
+
+          //validate phone
+          var phone = document.forms["commentForm"]["phone"].value;
+          if (phone) {
+              if (!(validatePhone(phone))) {
+                  document.forms["commentForm"]["phone"].style.backgroundColor = "pink";
+                  validateResult.innerHTML += "Телефон не корректный.";
+                  validateResult.innerHTML += "Формат телефона (xxx)xxxxxxx.<br>";
+              }
+          }
+
+          //if validateResult break post
+          if (validateResult.innerHTML) {
+            return false;
+          }
+      }
+</script>
+
+<div>
+     <h1>Comment page</h1>
+
+     <p id='validateResult'></p>
+
+     <form id="commentForm" name="commentForm" method="post" action="" onsubmit="return validateForm()">
+       <label>Фамилия:</label>
+       <input id="lname" type="text" name="lname" value="">
+
+       <label>Имя:</label>
+       <input type="text" name="fname" value="">
+       <label>
+         Отчество:
+       </label>
+       <input type="text" name="pname" value="">
+       <label>
+         Регион:
+       </label>
+       <select name="area" onchange="showCity(this.value)">
+         %(areas_option)s
+       </select>
+       <label>
+         Город:
+       </label>
+       <select id="selectCity" name="city">
+         <option value="">Выберите регион</option>
+       </select>
+       <label>
+         Контактный телефон:
+       </label>
+       <input id="phone" type="text" name="phone" value="">
+       <label>
+         e-mail:
+       </label>
+       <input id="email" type="text" name="email" value="">
+       <label>
+         Комментарий:
+       </label>
+       <textarea rows="10" cols="45" name="comment"></textarea>
+       <label>
+         <input type="submit" value="Отправить">
+       </label>
+
+     </form>
+
+     <p>
+        %(comment_added)s
+    </p>
+</div>
